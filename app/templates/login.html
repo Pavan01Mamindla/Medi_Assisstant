@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Staff login{% endblock %}
+{% block content %}
+<h1>Staff login</h1>
+<form class="card form narrow" method="post" novalidate>
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+  <div class="field">
+    <label for="username">Username</label>
+    <input id="username" name="username" type="text" maxlength="50" autocomplete="username" required>
+  </div>
+  <div class="field">
+    <label for="password">Password</label>
+    <input id="password" name="password" type="password" autocomplete="current-password" required>
+  </div>
+  <button class="btn btn-primary" type="submit">Sign in</button>
+  <p class="muted small">Demo authentication only. Real-world use needs hardening: rate limiting or lockout, multi-factor authentication, HTTPS everywhere, a production WSGI server, audit logging and a proper user-management system.</p>
+</form>
+{% endblock %}

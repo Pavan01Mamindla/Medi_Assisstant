@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+<h1>Appointment requests</h1>
+<p class="muted">Demo dashboard. Authentication and deployment security need hardening before real-world use.</p>
+
+<form class="filters card" method="get" action="{{ url_for('main.dashboard') }}">
+  <div class="field">
+    <label for="q">Search</label>
+    <input id="q" name="q" type="search" maxlength="100" value="{{ q }}" placeholder="Name, email or reason">
+  </div>
+  <div class="field">
+    <label for="status-filter">Status</label>
+    <select id="status-filter" name="status">
+      <option value="">All</option>
+      {% for s in statuses %}<option value="{{ s }}" {% if s == status %}selected{% endif %}>{{ s }}</option>{% endfor %}
+    </select>
+  </div>
+  <button class="btn btn-secondary" type="submit">Filter</button>
+  {% if q or status %}<a class="btn btn-link" href="{{ url_for('main.dashboard') }}">Clear</a>{% endif %}
+</form>
+
+{% if appts %}
+<div class="table-wrap">
+<table class="table">
+  <caption class="sr-only">Submitted appointment requests</caption>
+  <thead>
+    <tr><th scope="col">#</th><th scope="col">Patient</th><th scope="col">Email</th><th scope="col">Requested on</th><th scope="col">Preferred date</th><th scope="col">Reason</th><th scope="col">Status</th><th scope="col">Update</th></tr>
+  </thead>
+  <tbody>
+  {% for a in appts %}
+    <tr>
+      <td>{{ a.id }}</td>
+      <td>{{ a.patient_name }}</td>
+      <td>{{ a.email }}</td>
+      <td>{{ a.created_at.strftime('%Y-%m-%d') }}</td>
+      <td>{{ a.preferred_date.strftime('%Y-%m-%d') }}</td>
+      <td class="reason">{{ a.reason }}</td>
+      <td><span class="badge badge-{{ a.status|lower }}">{{ a.status }}</span></td>
+      <td>
+        <form method="post" class="status-form" action="{{ url_for('main.update_status', appt_id=a.id, q=q, filter=status) }}">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+          <label for="s-{{ a.id }}" class="sr-only">Status for request {{ a.id }}</label>
+          <select id="s-{{ a.id }}" name="status">
+            {% for s in statuses %}<option value="{{ s }}" {% if s == a.status %}selected{% endif %}>{{ s }}</option>{% endfor %}
+          </select>
+          <button class="btn btn-small" type="submit">Save</button>
+        </form>
+      </td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+</div>
+{% else %}
+<div class="card empty">
+  <h2>No requests found</h2>
+  <p>{% if q or status %}No requests match your filters.{% else %}Appointment requests will appear here once patients submit the form.{% endif %}</p>
+</div>
+{% endif %}
+{% endblock %}

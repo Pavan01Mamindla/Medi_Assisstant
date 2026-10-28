@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}Request received{% endblock %}
+{% block content %}
+<section class="card success">
+  <h1>Request received</h1>
+  {% if ref %}<p>Reference: <strong>#{{ ref }}</strong></p>{% endif %}
+  <p><strong>This is a request, not a confirmed appointment.</strong> The clinic will review it and contact you by email to confirm or suggest another time.</p>
+  <p>If your situation is urgent or an emergency, contact your local emergency services instead of waiting.</p>
+  <div class="button-row">
+    <a class="btn btn-primary" href="{{ url_for('main.index') }}">Back to home</a>
+    <a class="btn btn-secondary" href="{{ url_for('main.chat') }}">Ask the assistant a question</a>
+  </div>
+</section>
+{% endblock %}

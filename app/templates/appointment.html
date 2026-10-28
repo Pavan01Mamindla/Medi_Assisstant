@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}Request an appointment{% endblock %}
+{% block content %}
+<h1>Request an appointment</h1>
+<p class="lead">Submitting this form sends a <strong>request</strong> only. Your appointment is not confirmed until the clinic contacts you.</p>
+<p class="muted">Please don't include medical history or other sensitive details in the reason.</p>
+
+{% if errors %}
+<div class="alert alert-error" role="alert">Please fix the highlighted fields below.</div>
+{% endif %}
+
+<form class="card form" method="post" action="{{ url_for('main.appointment') }}" novalidate>
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+  <div class="field">
+    <label for="patient_name">Full name</label>
+    <input id="patient_name" name="patient_name" type="text" maxlength="100" autocomplete="name"
+           value="{{ values.get('patient_name', '') }}" required
+           {% if errors.patient_name %}aria-invalid="true" aria-describedby="err-name"{% endif %}>
+    {% if errors.patient_name %}<p id="err-name" class="field-error">{{ errors.patient_name }}</p>{% endif %}
+  </div>
+
+  <div class="field">
+    <label for="email">Contact email</label>
+    <input id="email" name="email" type="email" maxlength="254" autocomplete="email"
+           value="{{ values.get('email', '') }}" required
+           {% if errors.email %}aria-invalid="true" aria-describedby="err-email"{% endif %}>
+    {% if errors.email %}<p id="err-email" class="field-error">{{ errors.email }}</p>{% endif %}
+  </div>
+
+  <div class="field">
+    <label for="preferred_date">Preferred appointment date</label>
+    <input id="preferred_date" name="preferred_date" type="date"
+           value="{{ values.get('preferred_date', '') }}" required
+           {% if errors.preferred_date %}aria-invalid="true" aria-describedby="err-date"{% endif %}>
+    {% if errors.preferred_date %}<p id="err-date" class="field-error">{{ errors.preferred_date }}</p>{% endif %}
+  </div>
+
+  <div class="field">
+    <label for="reason">Reason for visit</label>
+    <textarea id="reason" name="reason" rows="4" maxlength="500" required
+              {% if errors.reason %}aria-invalid="true" aria-describedby="err-reason"{% endif %}>{{ values.get('reason', '') }}</textarea>
+    {% if errors.reason %}<p id="err-reason" class="field-error">{{ errors.reason }}</p>{% endif %}
+  </div>
+
+  <button class="btn btn-primary" type="submit">Submit request</button>
+</form>
+{% endblock %}

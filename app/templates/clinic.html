@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Clinic information{% endblock %}
+{% block content %}
+<h1>{{ clinic.name }}</h1>
+<div class="alert alert-info" role="note"><strong>Fictional demo data.</strong> These details are made up for this project and are not a real clinic.</div>
+
+<div class="grid grid-2">
+  <section class="card">
+    <h2>Opening hours</h2>
+    <dl class="kv">
+      {% for day, time in clinic.hours %}<dt>{{ day }}</dt><dd>{{ time }}</dd>{% endfor %}
+    </dl>
+  </section>
+  <section class="card">
+    <h2>Contact (demo)</h2>
+    <dl class="kv">
+      <dt>Phone</dt><dd>{{ clinic.contact.phone }}</dd>
+      <dt>Email</dt><dd>{{ clinic.contact.email }}</dd>
+      <dt>Address</dt><dd>{{ clinic.contact.address }}</dd>
+    </dl>
+  </section>
+</div>
+
+<section class="card">
+  <h2>Services</h2>
+  <ul class="service-list">
+    {% for name, desc in clinic.services %}<li><strong>{{ name }}</strong><span>{{ desc }}</span></li>{% endfor %}
+  </ul>
+</section>
+{% endblock %}

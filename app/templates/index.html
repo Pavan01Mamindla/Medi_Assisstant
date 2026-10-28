@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+{% block content %}
+<section class="hero">
+  <p class="eyebrow">Healthcare appointment &amp; patient support assistant</p>
+  <h1>MediAssist AI</h1>
+  <p class="lead">Ask general questions about clinic services, request an appointment, and learn when it's time to speak with a qualified healthcare professional.</p>
+  <div class="button-row">
+    <a class="btn btn-primary" href="{{ url_for('main.chat') }}">Chat with the assistant</a>
+    <a class="btn btn-secondary" href="{{ url_for('main.appointment') }}">Request an appointment</a>
+  </div>
+</section>
+
+<section class="grid grid-3" aria-label="What you can do">
+  <article class="card">
+    <h2>Ask a question</h2>
+    <p>Get plain-language answers about clinic services, opening hours and general health topics.</p>
+  </article>
+  <article class="card">
+    <h2>Request a visit</h2>
+    <p>Send your preferred date and reason. The clinic reviews it and contacts you. A request is not a confirmed appointment.</p>
+  </article>
+  <article class="card">
+    <h2>Know when to seek care</h2>
+    <p>The assistant never diagnoses or advises on medication, and points you to emergency services when needed.</p>
+  </article>
+</section>
+
+<section class="card notice">
+  <h2>Emergency?</h2>
+  <p>If you or someone else may be in danger, contact your local emergency services right now. Do not use this website.</p>
+</section>
+{% endblock %}

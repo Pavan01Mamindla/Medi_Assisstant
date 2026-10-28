@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}Chat{% endblock %}
+{% block content %}
+<h1>Patient support chat</h1>
+
+{% if demo_mode %}
+<div class="alert alert-info" role="note">
+  <strong>Demo mode:</strong> no Claude API key is configured, so replies come from predefined sample responses, not a live AI model.
+</div>
+{% endif %}
+
+<div class="alert alert-warning" role="note">
+  General information only. I can't diagnose conditions or advise on medication. In an emergency, contact local emergency services immediately.
+</div>
+
+<section class="chat" aria-label="Chat with MediAssist AI">
+  <div id="chat-log" class="chat-log" role="log" aria-live="polite">
+    <div class="msg msg-assistant">
+      <span class="msg-label">MediAssist AI</span>
+      <p>Hello! I can help with clinic services, appointment requests and general health information. What would you like to know?</p>
+    </div>
+  </div>
+  <div id="chat-loading" class="chat-loading" hidden><span class="spinner" aria-hidden="true"></span> Thinking…</div>
+  <p id="chat-error" class="field-error" role="alert" hidden></p>
+  <form id="chat-form" class="chat-form" data-max="{{ max_chars }}" novalidate>
+    <label for="chat-input" class="sr-only">Your question</label>
+    <textarea id="chat-input" rows="2" maxlength="{{ max_chars }}" placeholder="Ask about clinic hours, services or booking…" required></textarea>
+    <button id="chat-send" class="btn btn-primary" type="submit">Send</button>
+  </form>
+</section>
+{% endblock %}
+{% block scripts %}<script src="{{ url_for('static', filename='js/chat.js') }}" defer></script>{% endblock %}
